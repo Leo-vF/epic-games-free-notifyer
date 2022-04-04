@@ -1,0 +1,4 @@
+yagmail
+requests
+beautifulsoup4
+json

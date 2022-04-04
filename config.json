@@ -1,0 +1,6 @@
+{
+    "sender": "sender@your-email.com",
+    "receivers": [
+        "receiver@your-mail.com"
+    ]
+}

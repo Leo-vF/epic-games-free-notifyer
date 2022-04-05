@@ -1,6 +1,7 @@
-from posixpath import dirname
-import Scraping
+from datetime import datetime
+from collections import defaultdict
 from os.path import dirname
+import Scraping
 
 
 class Game:
@@ -19,7 +20,7 @@ class Game:
         self.discountPrice = discountPrice
         self.name = name
         self.description = description
-        self.freeUntil = freeUntil
+        self.freeUntil = self.format_time(freeUntil)
         self.imgUrl = imgUrl
         self.storeUrl = storeUrl
         self.genresFeaturesHtml = Game.__genresFeaturesAsHtml(
@@ -31,6 +32,23 @@ class Game:
         html = self.htmlTemplate.replace(LF, '')
         html = f"{self.htmlTemplate.replace(LF, '')}".format(**self.__dict__)
         return html
+
+    def format_time(self, time):
+        def ordinal(num):
+            ordinal_dict = defaultdict(lambda: "th")
+            ordinal_dict.update({1: "st", 2: "nd", 3: "rd"})
+            q, mod = divmod(num, 10)
+            suffix = "th" if q % 10 == 1 else ordinal_dict[mod]
+            return f"{num}{suffix}"
+
+        def weekday(num):
+            weekdays = ["Monday", "Tuesday", "Wednesday",
+                        "Thursday", "Friday", "Saturday", "Sunday"]
+            return weekdays[num]
+
+        time = datetime.strptime(
+            time, "%Y-%m-%dT%H:%M:%S.%fZ")
+        return f"{weekday(time.weekday())} the {ordinal(time.day)}"
 
     @staticmethod
     def __readHtmlTemplate() -> str:

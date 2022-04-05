@@ -80,8 +80,8 @@ class Game:
 
     @staticmethod
     def fromJson(json: dict):
-        originalPrice = json["price"]["totalPrice"]["originalPrice"]
-        discountPrice = json["price"]["totalPrice"]["discountPrice"]
+        originalPrice = json["price"]["totalPrice"]["fmtPrice"]["originalPrice"]
+        discountPrice = json["price"]["totalPrice"]["fmtPrice"]["discountPrice"]
         freeUntil = json["promotions"]["promotionalOffers"][0]["promotionalOffers"][0]["endDate"]
         imgUrl = Game.__findThumbnailUrl(json["keyImages"])
         storeUrl = Game.__findStoreUrl(json["productSlug"])

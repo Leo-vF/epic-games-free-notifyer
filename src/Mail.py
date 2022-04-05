@@ -6,7 +6,7 @@ import os.path
 sender: str
 receivers: list
 yag: yagmail.SMTP
-SUBJECT = "Epic Free Games for " + datetime.date(datetime.now())
+SUBJECT = "Epic Free Games for " + datetime.now().strftime("%Y-%m-%d")
 
 
 def send(receiver: str, body) -> None:

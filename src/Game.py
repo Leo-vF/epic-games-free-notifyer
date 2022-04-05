@@ -14,6 +14,7 @@ class Game:
     storeUrl: str
     htmlTemplate: str
     genresFeaturesHtml: str
+    timestamp: str
 
     def __init__(self, originalPrice, discountPrice, name, description, freeUntil, imgUrl, storeUrl) -> None:
         self.originalPrice = originalPrice
@@ -26,6 +27,7 @@ class Game:
         self.genresFeaturesHtml = Game.__genresFeaturesAsHtml(
             Scraping.getGenresFeatures(storeUrl))
         self.htmlTemplate = Game.__readHtmlTemplate()
+        self.timestamp = datetime.now()
 
     def asHtml(self) -> str:
         LF = "\n"

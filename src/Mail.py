@@ -1,3 +1,4 @@
+from datetime import datetime
 import yagmail
 import json
 import os.path
@@ -5,7 +6,7 @@ import os.path
 sender: str
 receivers: list
 yag: yagmail.SMTP
-SUBJECT = "Epic Free Games for this Week"
+SUBJECT = "Epic Free Games for " + datetime.date(datetime.now())
 
 
 def send(receiver: str, body) -> None:

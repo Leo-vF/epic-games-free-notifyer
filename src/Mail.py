@@ -29,7 +29,8 @@ def getConfig() -> None:
 def setup() -> None:
     global yag
     getConfig()
-    yag = yagmail.SMTP(sender)
+    yag = yagmail.SMTP(sender, oauth2_file=os.path.dirname(
+        __file__) + "/../oauth2_creds.json")
 
 
 setup()

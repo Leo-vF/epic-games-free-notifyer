@@ -73,10 +73,20 @@ class Game:
         return ""
 
     @staticmethod
-    def __findStoreUrl(productSlug: str) -> str:
-        if productSlug.endswith("/home"):
-            productSlug = productSlug.replace("/home", "")
-        return "https://store.epicgames.com/en-US/p/" + productSlug
+    def __findStoreUrl(json: dict) -> str:
+        BASE_URL = "https://store.epicgames.com/en-US/p/"
+        try:
+            if json["productSlug"].endswith("/home"):
+                productSlug = productSlug.replace("/home", "")
+                return BASE_URL + productSlug
+        except:
+            pass
+
+        if json["catalogNs"]["mappings"][0]["pageType"] == "productHome":
+            return BASE_URL + json["catalogNs"]["mappings"][0]["pageSlug"]
+
+        if json["offerMappings"]["mappings"][0]["pageType"] == "productHome":
+            return BASE_URL + json["offerMappings"]["mappings"][0]["pageSlug"]
 
     @staticmethod
     def fromJson(json: dict):
@@ -84,5 +94,9 @@ class Game:
         discountPrice = json["price"]["totalPrice"]["fmtPrice"]["discountPrice"]
         freeUntil = json["promotions"]["promotionalOffers"][0]["promotionalOffers"][0]["endDate"]
         imgUrl = Game.__findThumbnailUrl(json["keyImages"])
-        storeUrl = Game.__findStoreUrl(json["productSlug"])
+
+        urlJsonLocations = ["productSlug", "catalogNs", "offerMappings"]
+        possibleUrlLocations = {key: json[key] for key in urlJsonLocations}
+        storeUrl = Game.__findStoreUrl(possibleUrlLocations)
+
         return Game(originalPrice, discountPrice, json["title"], json["description"], freeUntil, imgUrl, storeUrl)

@@ -1,6 +1,5 @@
 yagmail
 requests
-beautifulsoup4
-json
+bs4
 datetime
 collections
